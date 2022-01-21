@@ -23,8 +23,20 @@ Once you have the dependencies, you can start the server with `jupyter notebook`
 On other systems, use use the virtualization provided by +Docker. A Docker image is provided, and can be started with:
 
 ```bash
-sudo docker run --net host gepetto/supaero
+sudo docker run --rm -p 7000:7000 -p 7001:7001 -p 7002:7002 -p 7003:7003 -p 7004:7004 -p 8888:8888 -v data:/home/user/tp -it gepetto/supaero
 ```
+
+On Linux host systems, you may simply start the Docker with:
+
+```bash
+sudo docker run --rm --net host -v data:/home/user/tp -it gepetto/supaero
+```
+
+In case of big update, you must update the docker:
+```bash
+sudo docker pull gepetto/supaero
+```
+
 
 ## Side notes
 
