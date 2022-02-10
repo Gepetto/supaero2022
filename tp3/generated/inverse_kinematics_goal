@@ -1,0 +1,5 @@
+# Goal placement, and integration in the viewer of the goal.
+oMgoal = pin.SE3(pin.Quaternion(-0.5, 0.58, -0.39, 0.52).normalized().matrix(),
+                np.array([1.2, .4, .7]))
+viz.addBox('goal', [.1,.1,.1], [ .1,.1,.5, .6] )
+viz.applyConfiguration('goal',oMgoal)

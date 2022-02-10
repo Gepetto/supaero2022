@@ -1,0 +1,26 @@
+q = q0.copy()
+herr = [] # Log the value of the error between tool and goal.
+# Loop on an inverse kinematics for 200 iterations.
+for i in range(200):  # Integrate over 2 second of robot life
+
+    # Run the algorithms that outputs values in robot.data
+    pin.framesForwardKinematics(robot.model,robot.data,q)
+    pin.computeJointJacobians(robot.model,robot.data,q)
+
+    # Placement from world frame o to frame f oMtool
+    oMtool = robot.data.oMf[IDX_TOOL]
+
+    # 3D jacobian in world frame
+    o_Jtool3 = pin.computeFrameJacobian(robot.model,robot.data,q,IDX_TOOL,pin.LOCAL_WORLD_ALIGNED)[:3,:]
+
+    # vector from tool to goal, in world frame
+    o_TG = oMtool.translation-oMgoal.translation
+    
+    # Control law by least square
+    vq = -pinv(o_Jtool3)@o_TG
+
+    q = pin.integrate(robot.model,q, vq * DT)
+    viz.display(q)
+    time.sleep(1e-3)
+
+    herr.append(o_TG) 

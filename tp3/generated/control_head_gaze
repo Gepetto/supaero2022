@@ -1,0 +1,6 @@
+IDX_GAZE = robot.model.getFrameId('framegaze')
+
+# Add a small ball as a visual target to be reached by the robot
+ball = np.array([ 1.2,0.5,1.1 ])
+viz.addSphere('ball', .05, [ .8,.1,.5, .8] )
+viz.applyConfiguration('ball', list(ball)+[0,0,0,1])

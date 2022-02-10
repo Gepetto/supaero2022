@@ -1,0 +1,2 @@
+IDX_TOOL = robot.model.getFrameId('frametool')
+IDX_BASIS = robot.model.getFrameId('framebasis')

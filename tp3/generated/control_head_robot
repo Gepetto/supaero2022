@@ -1,0 +1,2 @@
+robot = loadTiago(addGazeFrame=True)
+viz = MeshcatVisualizer(robot,url='classical')

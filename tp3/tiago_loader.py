@@ -1,3 +1,7 @@
+'''
+Tiago loader accounting for the first planar joint giving robot mobility.
+'''
+
 import numpy as np
 import pinocchio as pin
 import example_robot_data as robex
@@ -23,7 +27,7 @@ class TiagoLoader(object):
         self.model_path = robex.getModelPath(urdf_path, self.verbose)
         self.urdf_path = join(self.model_path, urdf_path)
         self.robot = pin.RobotWrapper.BuildFromURDF(self.urdf_path, [join(self.model_path, '../..')],
-                                                pin.JointModelPlanar() if self.free_flyer else None)
+                                                    pin.JointModelPlanar() if self.free_flyer else None)
 
         if self.srdf_filename:
             self.srdf_path = join(self.model_path, self.path, self.srdf_subpath, self.srdf_filename)
@@ -139,7 +143,7 @@ def loadTiago(addGazeFrame=False):
 # ------------------------------------------------------------------------------------------------
 
 if __name__ == "__main__":
-    from tp2.meshcat_viewer_wrapper import MeshcatVisualizer
+    from utils.meshcat_viewer_wrapper import MeshcatVisualizer
 
     robot = loadTiago()
     viz = MeshcatVisualizer(robot,url='classical')

@@ -1,0 +1,8 @@
+plt.subplot(211)
+plt.plot([ e[:3] for e in herr])
+plt.xlabel('control cycle (iter)')
+plt.ylabel('error (m)')
+plt.subplot(212)
+plt.plot([ e[3:] for e in herr])
+plt.xlabel('control cycle (iter)')
+plt.ylabel('error (rad)');

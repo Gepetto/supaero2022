@@ -1,30 +1,35 @@
 '''
 Inverse kinematics (close loop / iterative) for a mobile manipulator.
-Template of the program for TP3
+This second example is built upon the more simple tp3/inverse_kinematics.py.
+It adds a frame corresponding to the robot gaze, and provides a multi-objective control loop
+where the robot servo both its gripper and its gaze in two hierachized tasks.
 '''
 
 import pinocchio as pin
 import numpy as np
 import time
 from numpy.linalg import pinv,inv,norm,svd,eig
-from tiago_loader import loadTiago
+from tp3.tiago_loader import loadTiago
 import matplotlib.pylab as plt; plt.ion()
-from tp3.meshcat_viewer_wrapper import MeshcatVisualizer
+from utils.meshcat_viewer_wrapper import MeshcatVisualizer
 
+# %jupyter_snippet robot
 robot = loadTiago(addGazeFrame=True)
-
 viz = MeshcatVisualizer(robot,url='classical')
+# %end_jupyter_snippet
 
 NQ = robot.model.nq
 NV = robot.model.nv
 IDX_TOOL = robot.model.getFrameId('frametool')
 IDX_BASIS = robot.model.getFrameId('framebasis')
+# %jupyter_snippet gaze
 IDX_GAZE = robot.model.getFrameId('framegaze')
 
 # Add a small ball as a visual target to be reached by the robot
 ball = np.array([ 1.2,0.5,1.1 ])
 viz.addSphere('ball', .05, [ .8,.1,.5, .8] )
 viz.applyConfiguration('ball', list(ball)+[0,0,0,1])
+# %end_jupyter_snippet
 
 # Goal placement, and integration in the viewer of the goal.
 oMgoal = pin.SE3(pin.Quaternion(-0.5, 0.58, -0.39, 0.52).normalized().matrix(),
@@ -39,6 +44,7 @@ DT = 1e-2
 q0 = np.array([ 0.  ,  0.  ,  0.  ,  1.  ,  0.18,  1.37, -0.24, -0.98,  0.98,
                 0.  ,  0.  ,  0.  ,  0.  , -0.13,  0.  ,  0.  ,  0.  ,  0.  ])
 
+# %jupyter_snippet gaze_loop
 q = q0.copy()
 herr = [] # Log the value of the error between gaze and ball.
 # Loop on an inverse kinematics for 200 iterations.
@@ -64,7 +70,9 @@ for i in range(200):  # Integrate over 2 second of robot life
     time.sleep(1e-3)
 
     herr.append(o_GazeBall) 
+# %end_jupyter_snippet
 
+# %jupyter_snippet multi
 q = q0.copy()
 herr = [] # Log the value of the error between tool and goal.
 herr2 = [] # Log the value of the error between gaze and ball.
@@ -94,4 +102,4 @@ for i in range(200):  # Integrate over 2 second of robot life
 
     herr.append(o_TG)
     herr2.append(o_GazeBall) 
-
+# %end_jupyter_snippet

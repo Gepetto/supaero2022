@@ -1,0 +1,29 @@
+q = q0.copy()
+herr = [] # Log the value of the error between tool and goal.
+herr2 = [] # Log the value of the error between gaze and ball.
+# Loop on an inverse kinematics for 200 iterations.
+for i in range(200):  # Integrate over 2 second of robot life
+
+    pin.framesForwardKinematics(robot.model,robot.data,q)
+    pin.computeJointJacobians(robot.model,robot.data,q)
+
+    # Gaze task
+    oMgaze = robot.data.oMf[IDX_GAZE]
+    o_Jgaze3 = pin.computeFrameJacobian(robot.model, robot.data, q, IDX_GAZE,pin.LOCAL_WORLD_ALIGNED)[:3,:]
+    o_GazeBall = oMgaze.translation-ball
+
+    # Tool task
+    oMtool = robot.data.oMf[IDX_TOOL]
+    o_Jtool3 = pin.computeFrameJacobian(robot.model,robot.data,q,IDX_TOOL,pin.LOCAL_WORLD_ALIGNED)[:3,:]
+    o_TG = oMtool.translation-oMgoal.translation
+    
+    vq = -pinv(o_Jtool3) @ o_TG
+    Ptool = np.eye(robot.nv)-pinv(o_Jtool3) @ o_Jtool3
+    vq += pinv(o_Jgaze3 @ Ptool) @ (-o_GazeBall - o_Jgaze3 @ vq)
+
+    q = pin.integrate(robot.model,q, vq * DT)
+    viz.display(q)
+    time.sleep(1e-3)
+
+    herr.append(o_TG)
+    herr2.append(o_GazeBall) 
