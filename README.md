@@ -37,6 +37,23 @@ In case of big update, you must update the docker:
 sudo docker pull gepetto/supaero
 ```
 
+### Update the notebooks
+
+If the repository changes (for example when new tutorials are pushes), you need to update your local
+version by "pulling" it from the repository.
+On a native installation, just go in the folder containing the tutorials and execute ```git pull```
+
+With a docker, execute the following:
+```bash
+sudo docker run --rm -v data:/home/user/tp -it gepetto/supaero  git remote set-url origin https://github.com/gepetto/supaero2022
+```
+Then
+```bash
+sudo docker run --rm -v data:/home/user/tp -it gepetto/supaero  git pull --rebase origin main
+```
+
+To avoid conflict when pulling a new version, you should better to your modifications in copy of the original files,
+not directly in the original files itself.
 
 ## Side notes
 
