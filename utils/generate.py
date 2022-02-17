@@ -25,7 +25,7 @@ def generate(ipynb, folder):
         dest = None
         with filename.open() as f_in:
             for line_number, line in enumerate(f_in):
-                if any([ line.startswith(f'# %{hashtag}') for hashtag in hashtags ]):
+                if any([ f'# %{hashtag}' in line for hashtag in hashtags ]):
                     if dest is not None:
                         raise SyntaxError(f'%{hashtags[0]} block open twice at line {line_number + 1}')
                     dest = generated / f'{filename.stem}_{line.split()[2]}'
@@ -51,7 +51,7 @@ def generate(ipynb, folder):
 
 
 if __name__ == '__main__':
-    for tp_number in [0,1,2,3]:
+    for tp_number in [0,1,2,3,4]:
         generate_from_id(tp_number)
 
     for app in [ 'appendix_scipy_optimizers']:

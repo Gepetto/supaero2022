@@ -143,8 +143,8 @@ class CollisionWrapper:
 
 
 if __name__ == "__main__":
-    from tp6.meshcat_viewer_wrapper import MeshcatVisualizer
-    from tp6.robot_hand import RobotHand
+    from utils.meshcat_viewer_wrapper import MeshcatVisualizer
+    from tp4.robot_hand import RobotHand
     import time
     import numpy as np
     from numpy import cos,sin
@@ -152,7 +152,7 @@ if __name__ == "__main__":
     
     robot = RobotHand()
 
-    viz = MeshcatVisualizer(robot,url='tcp://127.0.0.1:6000')#classical')
+    viz = MeshcatVisualizer(robot,url='classical')
 
     q = robot.q0.copy()
     q[0]=.5

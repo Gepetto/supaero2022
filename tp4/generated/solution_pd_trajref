@@ -1,0 +1,2 @@
+from tp4.traj_ref import TrajRef
+qdes = TrajRef(robot.q0,omega = np.array([0,.1,1,1.5,2.5,-1,-1.5,-2.5,.1,.2,.3,.4,.5,.6]),amplitude=1.5)

@@ -27,6 +27,8 @@ class TrajRef:
 
 
 if __name__ == "__main__":
+    # %jupyter_snippet main
     qdes = TrajRef(np.array([0,0,0.]),omega = np.array([1,2,3.]),amplitude=1.5)
     t = 0.2
     print(qdes(t),qdes.velocity(t),qdes.acceleration(t))
+    # %end_jupyter_snippet

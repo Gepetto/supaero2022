@@ -1,0 +1,2 @@
+tauq = np.random.rand(robot.model.nv)
+aq = inv(M) @ (tauq - b)

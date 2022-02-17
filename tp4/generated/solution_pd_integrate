@@ -1,0 +1,2 @@
+vq += aq * dt
+q = pin.integrate(robot.model, q, vq * dt)

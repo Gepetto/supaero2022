@@ -43,7 +43,6 @@ class RobotHand:
 
     def __init__(self):
         self.viewer = None
-        #self.visuals = []
         self.model = pin.Model()
         self.gmodel = pin.GeometryModel()
 
@@ -55,7 +54,6 @@ class RobotHand:
         self.gdata.collisionRequests.enable_contact=True
         
         self.q0 = np.zeros(self.model.nq)
-        #self.q0[0] = np.pi
         self.q0[-2] = np.pi/3
         self.q0[2:-4] = np.pi/6
         self.q0[11:] = np.pi/4
@@ -134,8 +132,6 @@ class RobotHand:
         caps = Capsule(name,joint,radius*0.99,length,placement)
         caps.meshColor = np.array([1.]*4)
         self.gmodel.addGeometryObject(caps)
-        #self.gmodel.geometryObjects[-1].meshColor = np.array([1.]*4)
-
         
     def createHand(self,rootId=0,jointPlacement=None):
         color   = [red,green,blue,transparency] = [1,1,0.78,1.0]
@@ -318,16 +314,14 @@ class RobotHand:
 
 
 if __name__ == "__main__":
-    from tp6.meshcat_viewer_wrapper import MeshcatVisualizer
+    from utils.meshcat_viewer_wrapper import MeshcatVisualizer
     import time
     import numpy as np
     from numpy import cos,sin
     robot = RobotHand()
 
-    viz = MeshcatVisualizer(robot,url='tcp://127.0.0.1:6002')#classical')
-
+    viz = MeshcatVisualizer(robot,url='classical')
     viz.display(robot.q0)
-
 
     q = robot.q0.copy()
     T = 1000
