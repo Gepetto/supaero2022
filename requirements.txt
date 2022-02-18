@@ -3,4 +3,5 @@ example-robot-data
 jupyterlab
 matplotlib
 meshcat
+quadprog
 scipy
