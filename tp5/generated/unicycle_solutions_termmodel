@@ -1,0 +1,10 @@
+model_term = crocoddyl.ActionModelUnicycle()
+
+model_term.costWeights = np.matrix([
+    100,   # state weight
+    0  # control weight
+]).T
+
+# Define integral+terminal models
+problem = crocoddyl.ShootingProblem(x0, [ model ] * T, model_term)
+ddp = crocoddyl.SolverDDP(problem)
