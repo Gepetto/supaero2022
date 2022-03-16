@@ -5,3 +5,5 @@ matplotlib
 meshcat
 quadprog
 scipy
+tensorflow
+

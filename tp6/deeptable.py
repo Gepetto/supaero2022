@@ -19,7 +19,7 @@ print("Seed = %d" % RANDOM_SEED)
 np.random.seed(RANDOM_SEED)
 
 ### --- Hyper paramaters
-NEPISODES               = 50000           # Number of training episodes
+NEPISODES               = 2000          # Number of training episodes
 NSTEPS                  = 50            # Max episode length
 LEARNING_RATE           = 0.1           # Step length in optimizer
 DECAY_RATE              = 0.99          # Discount factor 

@@ -19,20 +19,26 @@ from tp6.env_pendulum import EnvPendulumDiscrete; Env = lambda : EnvPendulumDisc
 env = Env()
 
 ### --- Hyper paramaters
-NEPISODES               = 100000        # Number of training episodes
+NEPISODES               = 400           # Number of training episodes
 NSTEPS                  = 50            # Max episode length
 LEARNING_RATE           = 0.85          # 
 DECAY_RATE              = 0.99          # Discount factor 
 
 Q     = np.zeros([env.nx,env.nu])       # Q-table initialized to 0
 
+def policy(x):
+    return np.argmax(Q[x,:])
+
 def rendertrial(s0=None,maxiter=100):
     '''Roll-out from random state using greedy policy.'''
     s = env.reset(s0)
+    traj = [s]
     for i in range(maxiter):
         a = np.argmax(Q[s,:])
         s,r = env.step(a)
         env.render()
+        traj.append(s)
+    return traj
     
 signal.signal(signal.SIGTSTP, lambda x,y:rendertrial()) # Roll-out when CTRL-Z is pressed
 

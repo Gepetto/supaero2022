@@ -10,7 +10,7 @@ Mnih, Volodymyr, et al. "Human-level control through deep reinforcement learning
 Nature 518.7540 (2015): 529.
 '''
 
-from env_pendulum import EnvPendulumHybrid; Env = lambda : EnvPendulumHybrid(1,viewer='meshcat')
+from tp6.env_pendulum import EnvPendulumHybrid; Env = lambda : EnvPendulumHybrid(1,viewer='meshcat')
 from tp6.qnetwork import QNetwork
 from collections import deque
 import time

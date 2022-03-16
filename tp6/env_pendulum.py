@@ -83,6 +83,9 @@ class EnvPendulum(EnvPinocchio):
         pin.framesForwardKinematics(self.rmodel,self.rdata,q)
         return self.rdata.oMf[1].translation[2]
 
+    def jupyter_cell(self):
+        return self.viewer.viewer.jupyter_cell()
+    
 # --- SPIN-OFF ----------------------------------------------------------------------------------
 # --- SPIN-OFF ----------------------------------------------------------------------------------
 # --- SPIN-OFF ----------------------------------------------------------------------------------
@@ -105,6 +108,8 @@ class EnvPendulumDiscrete(env_abstract.EnvDiscretized):
         if self.withSimpleCost:
             c = int(np.all(np.abs(self.conti.x)<1e-3))
         return x,c
+    def jupyter_cell(self):
+        return self.conti.viewer.viewer.jupyter_cell()
         
 class EnvPendulumSinCos(env_abstract.EnvPartiallyObservable):
     def __init__(self,nbJoint=1,**kwargs):
@@ -119,6 +124,8 @@ class EnvPendulumSinCos(env_abstract.EnvPartiallyObservable):
                                                      obs=lambda x:sincos(x,env.nq),
                                                      obsInv=lambda csv:atan(csv,env.nq))
         self.reset()
+    def jupyter_cell(self):
+        return self.full.viewer.jupyter_cell()
         
 class EnvPendulumHybrid(env_abstract.EnvDiscretized):
     def __init__(self,nbJoint=1,**kwargs):
@@ -136,6 +143,8 @@ class EnvPendulumHybrid(env_abstract.EnvDiscretized):
     #     if self.withSimpleCost:
     #         c = int(np.all(np.abs(self.conti.x)<1e-3))
     #     return x,c
+    def jupyter_cell(self):
+        return self.conti.full.viewer.viewer.jupyter_cell()
 
         
 # --- MAIN -------------------------------------------------------------------------------
