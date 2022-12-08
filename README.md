@@ -1,6 +1,6 @@
-﻿# Supaero robotics, 2022
+﻿# Supaero robotics, 2023
 
-This repository contains the exercices for the robotics class at Supaero, 2022.
+This repository contains the exercices for the robotics class at Supaero, 2023.
 The exercices are organized by notebook. Each notebook corresponds to one chapter of the class.
 The notebooks are in Python and based on the software [Pinocchio](https://github.com/stack-of-tasks/pinocchio).
 
@@ -45,7 +45,7 @@ On a native installation, just go in the folder containing the tutorials and exe
 
 With a docker, execute the following:
 ```bash
-sudo docker run --rm -v data:/home/user/tp -it gepetto/supaero  git remote set-url origin https://github.com/gepetto/supaero2022
+sudo docker run --rm -v data:/home/user/tp -it gepetto/supaero  git remote set-url origin https://github.com/gepetto/supaero2023
 ```
 Then
 ```bash
@@ -84,4 +84,4 @@ On other OS, see [how to get Docker](https://docs.docker.com/get-docker/).
 
 # Join me on \[Matrix\]
 
-[\[Matrix\]](https://matrix.org/) is a distributed chat system that will be used during the class. Consider [creating an account](https://app.element.io/#/register) and join [the classroom channel](https://matrix.to/#/#supaero-robotics-2022:laas.fr).
+[\[Matrix\]](https://matrix.org/) is a distributed chat system that will be used during the class. Consider [creating an account](https://app.element.io/#/register) and join [the classroom channel](https://matrix.to/#/#supaero-robotics-2023:laas.fr).
