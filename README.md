@@ -85,3 +85,44 @@ On other OS, see [how to get Docker](https://docs.docker.com/get-docker/).
 # Join me on \[Matrix\]
 
 [\[Matrix\]](https://matrix.org/) is a distributed chat system that will be used during the class. Consider [creating an account](https://app.element.io/#/register) and join [the classroom channel](https://matrix.to/#/#supaero-robotics-2023:laas.fr).
+
+
+# Set up of the system ... for admin only
+
+## Compile the code snipets
+
+run ```python utils/generate.py```. The directories to be generated are listed in plain code (line 54).
+This script take the tp*/*py and produces tp*/generated/* files following the "# %jupyter_snippet" /
+"# %end_jupyter_snippet"  hashtag in the code.
+
+## Build and push the docker
+
+Build the docker as specified in Dockerfile. You need the buildkit for that. The following file +/etc/docker/deamon_json+ should contain:
+```json
+{ "features" : { "buildkit" : true } }
+```
+Add DOCKER_BUILDKIT=1 in your environment and restart docker.
+```bash
+sudo systemctl restart docker
+export DOCKER_BUILDKIT=1
+```
+Then build:
+```bash
+docker build . -t gepetto/supaero
+```
+Log to Docker-hub using your credentials.
+```bash
+docker login
+```
+Use the login corresponding to +https://hub.docker.com/+.
+And push it to the Gepetto repository of Docker-hub.
+```bash
+docker build -t gepetto/supaero
+```
+
+## Docker as normal user
+
+```bash
+sudo usermod -aG docker nmansard
+newgrp docker
+```
