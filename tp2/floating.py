@@ -75,7 +75,9 @@ Mtarget = pin.SE3(pin.utils.rotate('x', 3.14 / 4), np.array([0.5, 0.1, 0.2]))  #
 qopt = fmin_bfgs(cost, robot.q0, callback=callback)
 # %end_jupyter_snippet
 
-
+### TEST ZONE ############################################################
+### This last part is to automatically validate the versions of this example.
 class FloatingTest(unittest.TestCase):
     def test_cost(self):
         self.assertLess(cost(qopt), 1e-10)
+FloatingTest().test_cost()

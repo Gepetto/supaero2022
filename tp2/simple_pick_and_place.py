@@ -132,8 +132,9 @@ for i in range(100):
     time.sleep(1e-2)
 # %end_jupyter_snippet
 
-##########################################################################
+### TEST ZONE ############################################################
 ### This last part is to automatically validate the versions of this example.
 class SimplePickAndPlaceTest(unittest.TestCase):
     def test_oMbox_translation(self):
         self.assertTrue((np.abs(oMbox.translation - np.array([ 0.22085156, -0.6436716 ,  0.5632217 ])) < 1e-5).all())
+SimplePickAndPlaceTest().test_oMbox_translation()

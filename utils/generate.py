@@ -51,7 +51,7 @@ def generate(ipynb, folder):
 
 
 if __name__ == '__main__':
-    for tp_number in [0,]:
+    for tp_number in [0,2]:
         generate_from_id(tp_number)
 
     for app in [ 'appendix_scipy_optimizers']:

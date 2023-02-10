@@ -6,7 +6,6 @@ viz.addBox(tipID, [.08] * 3, [.2, .2, 1., .5])
 # OPTIM 6D #########################################################
 #
 
-
 def cost(q):
     '''Compute score from a configuration'''
     M = robot.placement(q, 6)
@@ -17,7 +16,7 @@ def callback(q):
     viz.applyConfiguration(boxID, Mtarget)
     viz.applyConfiguration(tipID, robot.placement(q, 6))
     viz.display(q)
-    time.sleep(1e-2)
+    time.sleep(1e-1)
 
 
 Mtarget = pin.SE3(pin.utils.rotate('x', 3.14 / 4), np.array([-0.5, 0.1, 0.2]))  # x,y,z
