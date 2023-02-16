@@ -12,10 +12,11 @@ from numpy.linalg import pinv,inv,norm,svd,eig
 from tp3.tiago_loader import loadTiago
 import matplotlib.pylab as plt; plt.ion()
 from utils.meshcat_viewer_wrapper import MeshcatVisualizer
+import unittest
 
 # %jupyter_snippet robot
 robot = loadTiago(addGazeFrame=True)
-viz = MeshcatVisualizer(robot,url='classical')
+viz = MeshcatVisualizer(robot)
 # %end_jupyter_snippet
 
 NQ = robot.model.nq
@@ -103,3 +104,16 @@ for i in range(200):  # Integrate over 2 second of robot life
     herr.append(o_TG)
     herr2.append(o_GazeBall) 
 # %end_jupyter_snippet
+
+
+### TEST ZONE ############################################################
+### This last part is to automatically validate the versions of this example.
+class ControlHeadTest(unittest.TestCase):
+    def test_logs(self):
+        print(self.__class__.__name__)
+        self.assertTrue(norm(herr[0])/5>norm(herr[-1])) # Check error decrease
+        self.assertTrue(norm(herr2[0])/5>norm(herr2[-1])) # Check error decrease
+
+if __name__ == "__main__":
+    ControlHeadTest().test_logs()
+

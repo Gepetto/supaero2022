@@ -10,13 +10,14 @@ import numpy as np
 import time
 from numpy.linalg import pinv,inv,norm,svd,eig
 from tp3.tiago_loader import loadTiago
-import matplotlib.pylab as plt; plt.ion()
+import matplotlib.pylab as plt
 from utils.meshcat_viewer_wrapper import MeshcatVisualizer
+import unittest
 # %end_jupyter_snippet
 
 # %jupyter_snippet robot
 robot = loadTiago()
-viz = MeshcatVisualizer(robot,url='classical')
+viz = MeshcatVisualizer(robot)
 # %end_jupyter_snippet
 
 NQ = robot.model.nq
@@ -111,3 +112,14 @@ plt.plot([ e[3:] for e in herr])
 plt.xlabel('control cycle (iter)')
 plt.ylabel('error (rad)');
 # %end_jupyter_snippet
+
+### TEST ZONE ############################################################
+### This last part is to automatically validate the versions of this example.
+class IKTest(unittest.TestCase):
+    def test_logs(self):
+        print(self.__class__.__name__)
+        self.assertTrue(norm(herr[0])/5>norm(herr[-1])) # Check error decrease
+
+if __name__ == "__main__":
+    IKTest().test_logs()
+    plt.show()

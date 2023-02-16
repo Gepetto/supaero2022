@@ -7,7 +7,7 @@ import pinocchio as pin
 import example_robot_data as robex
 import hppfcl
 from os.path import dirname, exists, join
-
+import unittest
 
 class TiagoLoader(object):
     #path = ''
@@ -142,11 +142,21 @@ def loadTiago(addGazeFrame=False):
 # ------------------------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------------
 
+### TEST ZONE ############################################################
+### This last part is to automatically validate the versions of this example.
+class TiagoTest(unittest.TestCase):
+    def test_load(self):
+        print(self.__class__.__name__)
+        robot = loadTiago()
+        self.assertTrue(robot.model.nq==18)
+        self.assertTrue(robot.model.nv==15)
+
 if __name__ == "__main__":
     from utils.meshcat_viewer_wrapper import MeshcatVisualizer
-
     robot = loadTiago()
-    viz = MeshcatVisualizer(robot,url='classical')
-
+    viz = MeshcatVisualizer(robot)
     viz.display(robot.q0)
+    TiagoTest().test_load()
+
+
 
