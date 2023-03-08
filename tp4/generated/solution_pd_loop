@@ -1,6 +1,6 @@
 hq    = []   ### For storing the logs of measured trajectory q
 hqdes = []   ### For storing the logs of desired trajectory qdes
-for i in range(10000):
+for i in range(1000):
     t = i*dt
 
     # Compute the model.

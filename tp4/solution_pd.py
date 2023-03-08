@@ -5,6 +5,7 @@ from numpy.linalg import inv, pinv, norm
 import time
 from tp4.robot_hand import RobotHand
 from utils.meshcat_viewer_wrapper import MeshcatVisualizer
+import unittest
 
 # %jupyter_snippet robothand
 robot = RobotHand()
@@ -55,7 +56,7 @@ qdes = TrajRef(robot.q0,omega = np.array([0,.1,1,1.5,2.5,-1,-1.5,-2.5,.1,.2,.3,.
 # %jupyter_snippet loop
 hq    = []   ### For storing the logs of measured trajectory q
 hqdes = []   ### For storing the logs of desired trajectory qdes
-for i in range(10000):
+for i in range(1000):
     t = i*dt
 
     # Compute the model.
@@ -83,3 +84,20 @@ for i in range(10000):
     hqdes.append(qdes.copy())
 
 # %end_jupyter_snippet
+
+### TEST ZONE ############################################################
+### This last part is to automatically validate the versions of this example.
+class PDTest(unittest.TestCase):
+    def test_logs(self):
+        print(self.__class__.__name__)
+        robot = RobotHand()
+
+        M = pin.crba(robot.model, robot.data, q)
+        b = pin.nle(robot.model, robot.data, q, vq)
+        aq = inv(M) @ (tauq - b)
+        aq_bis = pin.aba(robot.model,robot.data,q,vq,tauq)
+        self.assertTrue( np.allclose(aq,aq_bis) )
+        self.assertTrue( len(hq) == len(hqdes) )
+
+if __name__ == "__main__":
+    PDTest().test_logs()

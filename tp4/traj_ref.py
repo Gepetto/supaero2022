@@ -1,4 +1,5 @@
 import numpy as np
+import unittest
 
 class TrajRef:
     def __init__(self, q0, omega, amplitude):
@@ -26,9 +27,21 @@ class TrajRef:
         return self.q.copy()
 
 
+### TEST ZONE ############################################################
+### This last part is to automatically validate the versions of this example.
+class TrajRefTest(unittest.TestCase):
+    def test_logs(self):
+        print(self.__class__.__name__)
+        # %jupyter_snippet main
+        qdes = TrajRef(np.array([0,0,0.]),omega = np.array([1,2,3.]),amplitude=1.5)
+        t = 0.2
+        print(qdes(t),qdes.velocity(t),qdes.acceleration(t))
+        # %end_jupyter_snippet
+
+        self.assertTrue( np.allclose(qdes(t),[0.298004,0.58412751,0.84696371]) )
+        self.assertTrue( np.allclose(qdes.velocity(t),[1.47009987,2.76318298,3.71401027]) )
+        self.assertTrue( np.allclose(qdes.acceleration(t),[-0.298004,-2.33651005,-7.62267339]) )
+
+        
 if __name__ == "__main__":
-    # %jupyter_snippet main
-    qdes = TrajRef(np.array([0,0,0.]),omega = np.array([1,2,3.]),amplitude=1.5)
-    t = 0.2
-    print(qdes(t),qdes.velocity(t),qdes.acceleration(t))
-    # %end_jupyter_snippet
+    TrajRefTest().test_logs()

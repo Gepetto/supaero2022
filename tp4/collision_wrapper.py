@@ -1,5 +1,6 @@
 import pinocchio as pin
 import numpy as np
+import unittest
 
 class CollisionWrapper:
     def __init__(self,robot,viz=None):
@@ -10,6 +11,8 @@ class CollisionWrapper:
         self.rdata  = self.rmodel.createData()
         self.gmodel = self.robot.gmodel
         self.gdata  = self.gmodel.createData()
+        # This next line is likely a bug (collisionRequests is a list,
+        # does not have a "enable_contact" member.
         self.gdata.collisionRequests.enable_contact = True
 
 
@@ -18,6 +21,7 @@ class CollisionWrapper:
         pin.computeDistances(self.rmodel,self.rdata,self.gmodel,self.gdata,q)
         pin.computeJointJacobians(self.rmodel,self.rdata,q)
         if vq is not None:
+            # In the following line, 0*vq is likely useless.
             pin.forwardKinematics(self.rmodel,self.rdata,q,vq,0*vq)
         return res
 
@@ -159,41 +163,62 @@ if __name__ == "__main__":
     q[2:4]=1.7648
     viz.display(q)
 
-    col = CollisionWrapper(robot,viz)
-    col.initDisplay()
-    col.createDisplayPatchs(1)
-    col.computeCollisions(q)
-    cols = col.getCollisionList()
+    colwrap = CollisionWrapper(robot,viz)
+    colwrap.initDisplay()
+    colwrap.createDisplayPatchs(1)
+    colwrap.computeCollisions(q)
+    cols = colwrap.getCollisionList()
 
     ci=cols[0][2]     
-    col.displayContact(0,ci.getContact(0))   
+    colwrap.displayContact(0,ci.getContact(0))   
 
     ### Try to find a random contact
-    if 0:
+    if 1:
+# %jupyter_snippet collide
         q = robot.q0.copy()
         vq = np.random.rand(robot.model.nv)*2-1
         for i in range(10000):
             q+=vq*1e-3
-            col.computeCollisions(q)
-            cols = col.getCollisionList() 
+            colwrap.computeCollisions(q)
+            cols = colwrap.getCollisionList() 
             if len(cols)>0: break
             if not i % 20: viz.display(q)
             
         viz.display(q)
-    
-        col.displayCollisions()
+# %end_jupyter_snippet
+
+        colwrap.displayCollisions()
         p = cols[0][1]
         ci = cols[0][2].getContact(0)
         print(robot.gmodel.geometryObjects[p.first].name,robot.gmodel.geometryObjects[p.second].name)
         print(ci.pos)
-        
-        import pickle
-        with open('/tmp/bug.pickle', 'wb') as file:
-            pickle.dump([ col.gdata.oMg[11],
-                          col.gdata.oMg[3],
-                          #col.gmodel.geometryObjects[11].geometry,
-            ] , file)
 
-    dist=col.getCollisionDistances()
-    J = col.getCollisionJacobian()
+    # Compute the indexes of the joints of the subtree where the collision occured
+    i,p,r = cols[0]
+    j1 = colwrap.gmodel.geometryObjects[p.first].parentJoint
+    j2 = colwrap.gmodel.geometryObjects[p.second].parentJoint
+    chain = [ j1,j2 ]
+    while j1!=j2:
+        if j1<j2:
+            j2 = colwrap.rmodel.parents[j2]
+            chain.append(j2)
+        else:
+            j1 = colwrap.rmodel.parents[j1]
+            chain.append(j1)
+    # Take uniq indexes, ordered, and discart the first joint (common root)
+    # to the collision tree.
+    chain = list(set(chain))[1:] 
+    idx_qs = [ robot.model.joints[i].idx_v for i in chain ]
+    idx_nqs = [ i for i in range(robot.model.nv) if i not in idx_qs ]
     
+    dist=colwrap.getCollisionDistances()
+    J = colwrap.getCollisionJacobian()
+
+    #
+    assert(J.shape==(1,robot.model.nv))
+    assert(np.linalg.norm(J)>0)
+    assert(np.allclose(J[0,idx_nqs],0))
+
+
+    ### TODO Test: the assert could be tried several times with random vq
+    ### TODO: add finite diff test.

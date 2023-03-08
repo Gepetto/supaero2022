@@ -6,6 +6,7 @@ import numpy as np
 from numpy import pi
 from numpy import cos,sin,pi,hstack,vstack,argmin
 import hppfcl
+import unittest
 
 def Capsule(name,joint,radius,length,placement,color=[.7,.7,0.98,1]):
     '''Create a Pinocchio::FCL::Capsule to be added in the Geom-Model. '''
@@ -312,7 +313,20 @@ class RobotHand:
         self.viewer.refresh()
 
 
+### TEST ZONE ############################################################
+### This last part is to automatically validate the versions of this example.
+class RobotHandTest(unittest.TestCase):
+    def test_logs(self):
+        print(self.__class__.__name__)
+        robot = RobotHand()
 
+        self.assertTrue(robot.model.nq == 14) # Check NDOF
+        self.assertTrue(robot.model.nv == 14) # Check N tangent space NV
+
+if __name__ == "__main__":
+    RobotHandTest().test_logs()
+
+### EXAMPLE ################################################################
 if __name__ == "__main__":
     from utils.meshcat_viewer_wrapper import MeshcatVisualizer
     import time
@@ -320,11 +334,11 @@ if __name__ == "__main__":
     from numpy import cos,sin
     robot = RobotHand()
 
-    viz = MeshcatVisualizer(robot,url='classical')
+    viz = MeshcatVisualizer(robot)
     viz.display(robot.q0)
 
     q = robot.q0.copy()
-    T = 1000
+    T = 10
     for t in range(T):
         x = sin(t/30)
         q[12:13] = x+.5
