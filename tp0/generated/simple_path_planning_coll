@@ -1,4 +1,4 @@
 def coll(q):
-     '''Return true if in collision, false otherwise.'''
+     '''Return true if q in collision, false otherwise.'''
      pin.updateGeometryPlacements(robot.model,robot.data,robot.collision_model,robot.collision_data,q)
      return pin.computeCollisions(robot.collision_model,robot.collision_data,False)

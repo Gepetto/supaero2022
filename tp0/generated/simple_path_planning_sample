@@ -31,5 +31,5 @@ def plotConfigurationSpace(hcol,hfree,markerSize=20):
      plt.title("Distance to the obstacles")
      plt.colorbar()
 
-hcol,hfree = sampleSpace(100)
+hcol,hfree = sampleSpace(1000)
 plotConfigurationSpace(hcol,hfree)
