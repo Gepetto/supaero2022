@@ -18,7 +18,7 @@ def load_ur5_parallel():
     >>> len(robot.visual_model.geometryObjects)
     28
     """
-    robot = load('ur5')
+    robot = load("ur5")
     nbRobots = 4
 
     models = [robot.model.copy() for _ in range(nbRobots)]
@@ -30,14 +30,18 @@ def load_ur5_parallel():
     for irobot, model in enumerate(models):
         # Change frame names
         for i, f in enumerate(model.frames):
-            f.name = '%s_#%d' % (f.name, irobot)
+            f.name = "%s_#%d" % (f.name, irobot)
         # Change joint names
         for i, n in enumerate(model.names):
-            model.names[i] = '%s_#%d' % (n, irobot)
+            model.names[i] = "%s_#%d" % (n, irobot)
 
         # Choose the placement of the new arm to be added
-        Mt = pin.SE3(np.eye(3), np.array([.3, 0, 0.]))  # First robot is simply translated
-        basePlacement = pin.SE3(pin.utils.rotate('z', np.pi * irobot / 2), np.zeros(3)) * Mt
+        Mt = pin.SE3(
+            np.eye(3), np.array([0.3, 0, 0.0])
+        )  # First robot is simply translated
+        basePlacement = (
+            pin.SE3(pin.utils.rotate("z", np.pi * irobot / 2), np.zeros(3)) * Mt
+        )
 
         # Append the kinematic model
         fullmodel = pin.appendModel(fullmodel, model, 0, basePlacement)
@@ -49,7 +53,7 @@ def load_ur5_parallel():
         # Change geometry names
         for i, g in enumerate(vmodel.geometryObjects):
             # Change the name to avoid conflict
-            g.name = '%s_#%d' % (g.name, irobot)
+            g.name = "%s_#%d" % (g.name, irobot)
 
             # Refere to new parent names in the full kinematic tree
             g.parentFrame = fullmodel.getFrameId(model.frames[g.parentFrame].name)
@@ -57,11 +61,14 @@ def load_ur5_parallel():
 
             # Append the geometry model
             fullvmodel.addGeometryObject(g)
-            # print('add %s on frame %d "%s"' % (g.name, g.parentFrame, fullmodel.frames[g.parentFrame].name))
+            # print('add %s on frame %d "%s"',
+            # '% (g.name, g.parentFrame, fullmodel.frames[g.parentFrame].name)')
 
     fullrobot = pin.RobotWrapper(fullmodel, fullvmodel, fullvmodel)
     # fullrobot.q0 = np.array([-0.375, -1.2  ,  1.71 , -0.51 , -0.375,  0.   ]*4)
-    fullrobot.q0 = np.array([np.pi / 4, -np.pi / 4, -np.pi / 2, np.pi / 4, np.pi / 2, 0] * nbRobots)
+    fullrobot.q0 = np.array(
+        [np.pi / 4, -np.pi / 4, -np.pi / 2, np.pi / 4, np.pi / 2, 0] * nbRobots
+    )
 
     return fullrobot
 
@@ -70,5 +77,5 @@ if __name__ == "__main__":
     from utils.meshcat_viewer_wrapper import MeshcatVisualizer
 
     robot = load_ur5_parallel()
-    viz = MeshcatVisualizer(robot, url='classical')
+    viz = MeshcatVisualizer(robot, url="classical")
     viz.display(robot.q0)
