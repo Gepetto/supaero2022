@@ -28,6 +28,5 @@ assert np.isclose(x @ A @ x / 2 - b @ x, cost)
 assert np.all((C @ x - d) >= -1e-6)  # Check primal KKT condition
 assert np.all(np.isclose((C @ x - d)[iact - 1], 0))  # Check primal complementarity
 assert np.all(np.isclose((A @ x - b - lag @ C), 0))  # Check dual KKT condition
-assert np.all(
-    np.isclose(lag[[i not in iact - 1 for i in range(len(lag))]], 0)
-)  # Check dual complementarity
+# Check dual complementarity
+assert np.all(np.isclose(lag[[i not in iact - 1 for i in range(len(lag))]], 0))

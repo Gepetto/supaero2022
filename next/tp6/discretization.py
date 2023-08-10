@@ -21,37 +21,16 @@ class VectorDiscretization:
 
     def __init__(self, nv, vmax=1.0, vmin=None, nsteps=10, modulo=None, moduloIdx=[]):
         self.nv = nv  # Dimension of the vector space
-        self.vmax = (
-            vmax
-            if isinstance(vmax, np.ndarray)
-            else np.array(
-                [
-                    vmax,
-                ]
-                * nv
-            )
-        )
+        self.vmax = vmax if isinstance(vmax, np.ndarray) else np.array([vmax] * nv)
         self.vmin = (
             vmin
             if isinstance(vmin, np.ndarray)
             else -self.vmax
             if vmin is None
-            else np.array(
-                [
-                    vmin,
-                ]
-                * nv
-            )
+            else np.array([vmin] * nv)
         )
         self.nsteps = (
-            nsteps
-            if isinstance(nsteps, np.ndarray)
-            else np.array(
-                [
-                    nsteps,
-                ]
-                * nv
-            )
+            nsteps if isinstance(nsteps, np.ndarray) else np.array([nsteps] * nv)
         )
         self.nd = reduce(
             lambda i, j: i * j, self.nsteps

@@ -117,9 +117,9 @@ class EnvPendulumDiscrete(env_abstract.EnvDiscretized):
     def __init__(self, nbJoint=1, **kwargs):
         env = EnvPendulum(nbJoint, **kwargs)
         env.DT = 5e-1  # Larger integration step to allow larger discretization grid
-        env.Kf = (
-            0.1  # Reduced friction, because larger steps would make friction unstable.
-        )
+        # Reduced friction, because larger steps would make friction unstable.
+        env.Kf = 0.1
+
         env_abstract.EnvDiscretized.__init__(self, env, 21, 11)
         self.discretize_x.modulo = np.pi * 2
         self.discretize_x.moduloIdx = range(env.nq)
@@ -171,12 +171,13 @@ class EnvPendulumHybrid(env_abstract.EnvDiscretized):
         env = EnvPendulumSinCos(nbJoint, **kwargs)
         NU = 21  # 11
         env_abstract.EnvDiscretized.__init__(self, env, discretize_x=0, discretize_u=NU)
-        self.conti.full.Kf = (
-            0.1  # Reduced friction, because larger steps would make friction unstable.
-        )
-        self.conti.full.DT = (
-            1e-1  # 5e-1 # Larger integration step to allow larger discretization grid
-        )
+
+        # Reduced friction, because larger steps would make friction unstable.
+        self.conti.full.Kf = 0.1
+
+        # 5e-1 # Larger integration step to allow larger discretization grid
+        self.conti.full.DT = 1e-1
+
         self.conti.full.costWeights = {"q": 0, "tip": 1.0, "u": 0.00, "v": 0.1}
 
         self.reset()

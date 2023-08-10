@@ -108,9 +108,8 @@ class QNetwork:
         self.model = keras.Model(
             inputs=[input_x, input_u], outputs=[qvalues, value, qvalue, policy]
         )
-        self.saver = keras.Model(
-            inputs=input_x, outputs=qvalues
-        )  # For saving the weights
+        # For saving the weights
+        self.saver = keras.Model(inputs=input_x, outputs=qvalues)
 
         self._policy = keras.backend.function(input_x, policy)
         self._qvalues = keras.backend.function(input_x, qvalues)
