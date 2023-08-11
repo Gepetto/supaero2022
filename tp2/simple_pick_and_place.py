@@ -2,14 +2,14 @@ import math
 import time
 import unittest
 
+import example_robot_data as robex
 import numpy as np
 import pinocchio as pin
-import example_robot_data as robex
 
 from utils.meshcat_viewer_wrapper import MeshcatVisualizer, colors
 
 # %jupyter_snippet 1
-robot = robex.load('ur5')
+robot = robex.load("ur5")
 # %end_jupyter_snippet
 NQ = robot.model.nq
 NV = robot.model.nv
@@ -40,7 +40,7 @@ q0[1] = -1.2
 q0[2] = 1.71
 q0[3] = -q0[1] - q0[2]
 q0[4] = q0[0]
-q0[5] = 0.
+q0[5] = 0.0
 
 viz.display(q0)
 q = q0.copy()
@@ -55,10 +55,12 @@ print("Let's start the movement ...")
 
 # %jupyter_snippet 4
 # Random velocity of the robot driving the movement
-vq = np.array([2., 0, 0, 4., 0, 0])
+vq = np.array([2.0, 0, 0, 4.0, 0, 0])
 
-idx = robot.index('wrist_3_joint')
-o_eff = robot.placement(q, idx).translation  # Position of end-eff wrt world at current configuration
+idx = robot.index("wrist_3_joint")
+o_eff = robot.placement(
+    q, idx
+).translation  # Position of end-eff wrt world at current configuration
 o_ball = q_ball[:3]  # Position of ball wrt world
 eff_ball = o_ball - o_eff  # Position of ball wrt eff
 
@@ -86,13 +88,13 @@ viz.display(q0)
 # %jupyter_snippet 5
 # Add a red box in the viewer
 boxID = "world/box"
-#viz.delete(ballID)
+# viz.delete(ballID)
 viz.addBox(boxID, [0.1, 0.2, 0.1], colors.magenta)
 
 # Place the box at the position (0.5, 0.1, 0.2)
 q_box = [0.5, 0.1, 0.2, 1, 0, 0, 0]
 viz.applyConfiguration(boxID, q_box)
-viz.applyConfiguration(ballID, [2,2,2,1,0,0,0])
+viz.applyConfiguration(ballID, [2, 2, 2, 1, 0, 0, 0])
 # %end_jupyter_snippet
 
 # %jupyter_snippet 6
@@ -111,10 +113,12 @@ print("Now moving with a 6D object ... ")
 
 # %jupyter_snippet 7
 # Random velocity of the robot driving the movement
-vq = np.array([2., 0, 0, 4., 0, 0])
+vq = np.array([2.0, 0, 0, 4.0, 0, 0])
 
-idx = robot.index('wrist_3_joint')
-oMeff = robot.placement(q, idx)  # Placement of end-eff wrt world at current configuration
+idx = robot.index("wrist_3_joint")
+oMeff = robot.placement(
+    q, idx
+)  # Placement of end-eff wrt world at current configuration
 oMbox = pin.XYZQUATToSE3(q_box)  # Placement of box     wrt world
 effMbox = oMeff.inverse() * oMbox  # Placement of box     wrt eff
 
@@ -132,9 +136,19 @@ for i in range(100):
     time.sleep(1e-2)
 # %end_jupyter_snippet
 
+
 ### TEST ZONE ############################################################
 ### This last part is to automatically validate the versions of this example.
 class SimplePickAndPlaceTest(unittest.TestCase):
     def test_oMbox_translation(self):
-        self.assertTrue((np.abs(oMbox.translation - np.array([ 0.22085156, -0.6436716 ,  0.5632217 ])) < 1e-5).all())
+        self.assertTrue(
+            (
+                np.abs(
+                    oMbox.translation - np.array([0.22085156, -0.6436716, 0.5632217])
+                )
+                < 1e-5
+            ).all()
+        )
+
+
 SimplePickAndPlaceTest().test_oMbox_translation()

@@ -26,4 +26,3 @@ for i in range(1000):
     # Log the history.
     hq.append(q.copy())
     hqdes.append(qdes.copy())
-

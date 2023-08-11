@@ -1,4 +1,4 @@
-﻿# Supaero robotics, 2023
+# Supaero robotics, 2023
 
 This repository contains the exercices for the robotics class at Supaero, 2023.
 The exercices are organized by notebook. Each notebook corresponds to one chapter of the class.

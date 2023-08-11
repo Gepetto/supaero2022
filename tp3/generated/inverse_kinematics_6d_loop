@@ -6,7 +6,7 @@ for i in range(200):  # Integrate over 2 second of robot life
     pin.framesForwardKinematics(robot.model,robot.data,q)
     pin.computeJointJacobians(robot.model,robot.data,q)
 
-    # Placement from world frame o to frame f oMtool  
+    # Placement from world frame o to frame f oMtool
     oMtool = robot.data.oMf[IDX_TOOL]
 
     # 6D error between the two frame

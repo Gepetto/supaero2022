@@ -3,13 +3,13 @@ def cost(q):
      Cost function: distance to the target
      '''
      return dist(q)**2
-     
+
 def constraint(q):
      '''
      Constraint function: distance to the obstacle should be positive.
      '''
      return collisionDistance(q)
-     
+
 def callback(q):
      '''
      At each optimization step, display the robot configuration in gepetto-viewer.
@@ -20,7 +20,7 @@ def callback(q):
 def optimize():
      '''
      Optimize from an initial random configuration to discover a collision-free
-     configuration as close as possible to the target. 
+     configuration as close as possible to the target.
      '''
      return fmin_slsqp(x0=qrand(check=True),
                        func=cost,
