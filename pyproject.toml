@@ -15,6 +15,9 @@ quadprog = "^0.1.11"
 scipy = "^1.10.1"
 tensorflow = "^2.13.0"
 
+[tool.isort]
+profile = "black"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
