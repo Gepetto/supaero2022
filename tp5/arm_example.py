@@ -1,7 +1,7 @@
 """
 # In this example test, we will solve the reaching-goal task with the Talos arm.
 # For that, we use the forward dynamics (with its analytical derivatives)
-# developed inside crocoddyl; it describes inside 
+# developed inside crocoddyl; it describes inside
   DifferentialActionModelFullyActuated class.
 # Finally, we use an Euler sympletic integration scheme.
 """

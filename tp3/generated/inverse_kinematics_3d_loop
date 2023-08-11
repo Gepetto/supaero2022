@@ -15,7 +15,7 @@ for i in range(200):  # Integrate over 2 second of robot life
 
     # vector from tool to goal, in world frame
     o_TG = oMtool.translation-oMgoal.translation
-    
+
     # Control law by least square
     vq = -pinv(o_Jtool3)@o_TG
 
@@ -23,4 +23,4 @@ for i in range(200):  # Integrate over 2 second of robot life
     viz.display(q)
     time.sleep(1e-3)
 
-    herr.append(o_TG) 
+    herr.append(o_TG)

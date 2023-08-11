@@ -16,8 +16,8 @@ def sampleSpace(nbSamples=500):
 
 def plotConfigurationSpace(hcol,hfree,markerSize=20):
      '''
-     Plot 2 "scatter" plots: the first one plot the distance to the target for 
-     each configuration, the second plots the distance to the obstacles (axis q1,q2, 
+     Plot 2 "scatter" plots: the first one plot the distance to the target for
+     each configuration, the second plots the distance to the obstacles (axis q1,q2,
      distance in the color space).
      '''
      htotal = hcol + hfree

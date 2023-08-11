@@ -1,6 +1,6 @@
 """
-Stand-alone program to optimize the placement of a 2d robot, where the decision 
-variables are the placement of the 3 bodies of the robot. BFGS and SLSQP solvers 
+Stand-alone program to optimize the placement of a 2d robot, where the decision
+variables are the placement of the 3 bodies of the robot. BFGS and SLSQP solvers
 are used.
 """
 

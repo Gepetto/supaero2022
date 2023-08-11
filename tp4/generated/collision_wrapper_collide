@@ -3,8 +3,8 @@ vq = np.random.rand(robot.model.nv)*2-1
 for i in range(10000):
     q+=vq*1e-3
     colwrap.computeCollisions(q)
-    cols = colwrap.getCollisionList() 
+    cols = colwrap.getCollisionList()
     if len(cols)>0: break
     if not i % 20: viz.display(q)
-    
+
 viz.display(q)

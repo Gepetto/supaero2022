@@ -1,7 +1,7 @@
 """
 Inverse kinematics (close loop / iterative) for a mobile manipulator.
-This basic example simply provides two control loops, to servo -first- 
-the position of the gripper then -second- the placement (position orientation) 
+This basic example simply provides two control loops, to servo -first-
+the position of the gripper then -second- the placement (position orientation)
 of the gripper.
 """
 

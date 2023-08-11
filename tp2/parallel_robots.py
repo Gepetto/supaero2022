@@ -1,6 +1,6 @@
 """
-Load 4 times the UR5 model, plus a plate object on top of them, to feature a simple 
-parallel robot. 
+Load 4 times the UR5 model, plus a plate object on top of them, to feature a simple
+parallel robot.
 No optimization, this file is just an example of how to load the models.
 """
 

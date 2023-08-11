@@ -1,6 +1,6 @@
 target = np.array([.5, .5])
 viz.applyConfiguration('target',translation2d(target[0],target[1]))
-                            
+
 def cost(q):
     eff = endeffector(q)
     return np.linalg.norm(eff - target)**2
