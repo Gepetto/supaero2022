@@ -17,6 +17,6 @@ jobs:
       with:
         python-version: "3.10"
     - name: Install dependencies
-      run: pip install poetry && poetry install
+      run: pipx install poetry && poetry install
     - name: check with gepetuto
-      run: gepetuto -vva all
+      run: gepetuto -vvca all
